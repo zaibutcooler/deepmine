@@ -1,3 +1,3 @@
-# Stone
+# Deepmine
 
 Hello from stone world
