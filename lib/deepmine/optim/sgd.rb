@@ -1,18 +1,16 @@
 module Deepmine
-    module Optim
-      class SGD < Optimizer
-        def initialize(parameters, lr = 0.01)
-          super(parameters)
-          @lr = lr
-        end
-  
-        def step
-          @parameters.each do |param|
-            next unless param.grad
-            param.data = param.data.map.with_index { |x, i| x - @lr * param.grad[i] }
-          end
+  module Optim
+    class SGD < Optimizer
+      def initialize(parameters, lr = 0.01)
+        super(parameters)
+        @lr = lr
+      end
+
+      def step
+        @parameters.each do |param|
+          param.data = param.data.zip(param.grad).map { |d, g| d - @lr * g }
         end
       end
     end
   end
-  
+end
