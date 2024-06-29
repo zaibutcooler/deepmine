@@ -9,21 +9,18 @@ require_relative 'lib/deepmine/optim/sgd'
 require_relative 'lib/deepmine/loss/mse'
 
 include Deepmine
-
+# Generating Data
 def generate_data(n_samples = 100)
   x = Array.new(n_samples) { [rand] }
   y = x.map { |xi| [3 * xi.first + 2 + rand(-0.1..0.1)] }
   [x, y]
 end
 
-puts "Starting"
-
 x_data, y_data = generate_data
 x_tensor = Tensor.new(x_data)
 y_tensor = Tensor.new(y_data)
 
-puts "Tensor Success"
-
+# Initializing the model
 class DummyModel < NN::Module
   def initialize
     super()
@@ -40,15 +37,12 @@ class DummyModel < NN::Module
   end
 end
 
-puts "Model Init Success"
 
 model = DummyModel.new
 optimizer = Optim::SGD.new(model.parameters, lr = 0.01)
-
 n_epochs = 1000
 
-puts "starting training"
-
+# Training Process
 n_epochs.times do |epoch|
   predictions = model.call(x_tensor)
   loss = Loss::MSE.compute(predictions, y_tensor)
